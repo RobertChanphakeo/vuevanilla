@@ -5,8 +5,11 @@ This is a modified template based upon official Microsoft.AspNetCore.SpaTemplate
 ## This template has the following changes:
 
 - Migrated to .Net Core 2.1
-- Removed Typescript
+- Updated NPM packages
+- Updated to Bootstrap 4
+- Updated to WebPack 4
 - Added Serilog
+- Removed Typescript
 
 Other than that it has minor changes to VueJS original files.
 

@@ -2,11 +2,14 @@ const path = require('path');
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const bundleOutputDir = './wwwroot/dist';
+const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
 module.exports = (env) => {
     const isDevBuild = !(env && env.prod);
+    const devMode = isDevBuild ? 'development':'production';
 
     return [{
+        mode: devMode,
         stats: { modules: false },
         context: __dirname,
         resolve: { extensions: ['.js'] },
@@ -16,6 +19,36 @@ module.exports = (env) => {
                 {
                     test: /\.vue$/, include: /ClientApp/,
                     loader: 'vue-loader'
+                },
+                // this will apply to both plain `.js` files
+                // AND `<script>` blocks in `.vue` files
+                {
+                    test: /\.js$/,
+                    loader: 'babel-loader'
+                },
+                // this will apply to both plain `.css` files
+                // AND `<style>` blocks in `.vue` files
+                {
+                    test: /\.css$/,
+                    use: [
+                        'vue-style-loader',
+                        'css-loader'
+                    ]
+                },
+                // this will apply to both plain .scss files
+                // AND <style lang="scss"> blocks in vue files
+                {
+                    test: /\.scss$/,
+                    use: [
+                        'vue-style-loader',
+                        'css-loader',
+                        {
+                            loader: 'sass-loader',
+                            options: {
+                                data: '$color: red;'
+                            }
+                        }
+                    ]
                 },
                 {
                     test: /\.css$/, use: isDevBuild ? ['style-loader',
@@ -34,6 +67,8 @@ module.exports = (env) => {
             publicPath: 'dist/'
         },
         plugins: [
+            // make sure to include the plugin for the magic
+            new VueLoaderPlugin(),
             new webpack.DefinePlugin({
                 'process.env': {
                     NODE_ENV: JSON.stringify(isDevBuild ? 'development' : 'production')
@@ -51,8 +86,8 @@ module.exports = (env) => {
             })
         ] : [
             // Plugins that apply in production builds only
-            new webpack.optimize.UglifyJsPlugin(),
-            new ExtractTextPlugin('site.css')
+                new webpack.optimize.UglifyJsPlugin(),
+                new ExtractTextPlugin('site.css')
         ])
     }];
 };

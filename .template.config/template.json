@@ -1,0 +1,23 @@
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "rchanphakeo",
+  "classifications": [ "Web", "MVC", "SPA" ],
+  "name": "ASP.NET Core 2.1 with VueJS (Vanilla)",
+  "identity": "vue.vanilla",
+  "groupIdentity": "aspnetcore-vuejs",
+  "shortName": "vuevanilla",
+  "tags": {
+    "language": "C#",
+    "type": "project"
+  },
+  "sourceName": "vuevanilla",
+  "preferedNameDirectory": "true",
+  "sources": {
+    "source": "./",
+    "target": "./",
+    "exclude": [
+      ".template.config/**",
+      "node_modules/**"
+    ]
+  }
+}
